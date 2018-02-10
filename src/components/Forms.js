@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
+import Modal from 'react-modal';
 import variables from '../helpers/styleVariables';
 
 export const InputWrapper = styled.div`
@@ -49,5 +50,25 @@ export const Textarea = styled.textarea`
   &:focus {
     outline: 0;
     border-bottom-color: ${variables.tertiary};
+  }
+`;
+
+export const ModalWrapper = styled(Modal)`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  border-radius: ${variables.radius};
+  padding: 1rem;
+  border: 1px solid ${variables.grey};
+  min-width: 500px;
+
+  &:focus {
+    outline: 0;
+  }
+
+  h2 {
+    margin-top: 0;
   }
 `;

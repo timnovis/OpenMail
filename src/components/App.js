@@ -42,6 +42,7 @@ injectGlobal`
   input, button, textarea, select {
     font-family: inherit;
     border: 0;
+    background: transparent;
 
     &::placeholder {
       color: ${darken(0.4, variables.grey)};

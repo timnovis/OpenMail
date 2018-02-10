@@ -1,22 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { lighten } from 'polished';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import variables from '../../helpers/styleVariables';
 import Button from '../Button';
+import Logo from '../Logo';
 
 class Layout extends React.Component {
   render() {
     return (
       <Container>
+        <ToastContainer />
         <Header>
-          <Logo>
-            <Link to="/">
-              <i class="fas fa-fw fa-envelope-open" />OpenMail
-            </Link>
-          </Logo>
+          <Logo />
           <Button primary link to="/">
-            <i class="fas fa-fw fa-sign-out-alt" />Sign Out
+            <i className="fas fa-fw fa-sign-out-alt" />Sign Out
           </Button>
         </Header>
         <FlexRow>
@@ -35,6 +34,11 @@ class Layout extends React.Component {
               <li>
                 <NavLink to="/lists" activeClassName="active">
                   <i className="fas fa-fw fa-users" />Lists
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/settings" activeClassName="active">
+                  <i className="fas fa-fw fa-cog" />Settings
                 </NavLink>
               </li>
             </SidebarList>
@@ -100,26 +104,12 @@ const Header = styled.header`
   align-items: center;
 `;
 
-const Logo = styled.h1`
-  color: #fff;
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 0;
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  svg {
-    margin-right: 0.5rem;
-  }
-`;
-
 const Content = styled.main`
   background: #fff;
   padding: 1.5rem;
   flex: 1;
+  overflow: scroll;
+  max-height: calc(100vh - 70px);
 `;
 
 export default Layout;

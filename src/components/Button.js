@@ -19,12 +19,15 @@ class Button extends React.Component {
 }
 
 const styles = props => `
+  margin-right: .5rem;
   font-size: 1rem;
-  background: ${props.primary ? variables.secondary : '#fff'};
+  background: ${
+    props.primary ? variables.secondary : props.danger ? variables.red : '#fff'
+  };
   border: 0;
   padding: 0.6rem 1rem;
   border-radius: ${variables.radius};
-  color: ${props.primary ? '#fff' : variables.secondary};
+  color: ${props.primary || props.danger ? '#fff' : variables.secondary};
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0,0,0,.08);
   transition: .2s ease all;
@@ -40,8 +43,14 @@ const styles = props => `
     background: ${
       props.primary
         ? lighten(0.05, variables.secondary)
-        : lighten(0.1, variables.grey)
+        : props.danger
+          ? lighten(0.05, variables.red)
+          : lighten(0.1, variables.grey)
     };
+  }
+
+  &:last-of-type {
+    margin-right: 0;
   }
 `;
 
