@@ -48,7 +48,7 @@ class Lists extends React.Component {
     toast('List created successfully');
   };
   deleteList = async (e, id) => {
-    e.preventDefault();
+    e ? e.preventDefault() : null;
     let confirm = window.confirm('Are you sure you want to delete this list?');
     if (confirm) {
       const data = await http.delete(`/lists/${id}`);
