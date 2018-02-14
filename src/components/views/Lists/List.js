@@ -18,13 +18,15 @@ class List extends React.Component {
       importModal: false,
       list: [],
       listName: '',
+      importFile: null,
+      mimeType: null,
     };
   }
   componentWillMount = async () => {
     const listRequest = await http.get(`/lists/${this.props.match.params.id}`);
     const list = await listRequest.json();
     this.setState({
-      list: list.result.subscribers,
+      list: list.result.subscribers.slice(0, 500),
       listName: list.result.listName,
     });
   };
@@ -35,7 +37,19 @@ class List extends React.Component {
   };
   importSubscribers = async e => {
     e.preventDefault();
-    console.log('Importing...');
+    const r = await http.uploadFile(
+      `/lists/import/${this.props.match.params.id}`,
+      this.state.importFile,
+    );
+    await r.json();
+  };
+  handleInputChange = e => {
+    if (e.target.files && e.target.files.length > 0) {
+      this.setState({
+        importFile: e.target.files[0],
+        mimeType: e.target.files[0].type,
+      });
+    }
   };
   render() {
     return (
@@ -82,7 +96,11 @@ class List extends React.Component {
           <form onSubmit={e => this.importSubscribers(e)}>
             <InputWrapper>
               <InputLabel htmlFor="csvUpload">Subscriber CSV</InputLabel>
-              <Input type="file" id="csvUpload" />
+              <Input
+                type="file"
+                id="csvUpload"
+                onChange={e => this.handleInputChange(e)}
+              />
             </InputWrapper>
             <Button type="submit" primary button>
               <i className="fas fa-fw fa-upload" />Import Now

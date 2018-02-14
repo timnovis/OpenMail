@@ -27,6 +27,18 @@ class http {
       }),
     });
   }
+  static uploadFile(path, payload) {
+    let formData = new FormData();
+    formData.append('csv', payload, payload.name);
+
+    return fetch(`${this.baseUrl}${path}`, {
+      method: 'POST',
+      body: formData,
+      headers: new Headers({
+        Authorization: `Bearer ${window.localStorage.getItem('jwt')}`,
+      }),
+    });
+  }
 }
 
 export default http;
