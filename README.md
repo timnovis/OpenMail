@@ -1,5 +1,7 @@
 # OpenMail Front-End
 
+![Open Mail UI](https://i.imgur.com/esTM5Lj.png 'OpenMail UI')
+
 ## Get Started
 
 ### Prerequisites
