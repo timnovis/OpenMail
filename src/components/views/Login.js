@@ -5,6 +5,7 @@ import Logo from '../Logo';
 import variables from '../../helpers/styleVariables';
 import { InputWrapper, InputLabel, Input } from '../Forms';
 import Button from '../Button';
+import http from '../../helpers/http';
 
 class Login extends React.Component {
   constructor() {
@@ -19,15 +20,9 @@ class Login extends React.Component {
     const { emailAddress, password } = this.state;
 
     try {
-      const loginRes = await fetch('http://localhost:8080/api/login', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-        }),
-        body: JSON.stringify({
-          emailAddress: emailAddress,
-          password: password,
-        }),
+      const loginRes = await http.post('/auth/login', {
+        emailAddress: emailAddress,
+        password: password,
       });
 
       const data = await loginRes.json();
@@ -54,9 +49,7 @@ class Login extends React.Component {
                   type="email"
                   id="email"
                   placeholder="you@company.com"
-                  onChange={e =>
-                    this.setState({ emailAddress: e.target.value })
-                  }
+                  onChange={e => this.setState({ emailAddress: e.target.value })}
                 />
               </InputWrapper>
               <InputWrapper>

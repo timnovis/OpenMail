@@ -5,13 +5,21 @@ import styledNormalize from 'styled-normalize';
 import variables from '../helpers/styleVariables';
 import { darken } from 'polished';
 import Routes from '../routes';
+import ProtectedRoute from '../components/views/Protected';
+import RedirectRoute from '../components/views/Redirect';
 
 class App extends React.Component {
   render() {
     return (
       <Switch>
         {Routes.map(route => {
-          return <Route key={route.name} {...route} />;
+          if (route.protected) {
+            return <ProtectedRoute key={route.name} {...route} />;
+          } else if (route.forceRedirect) {
+            return <RedirectRoute key={route.name} {...route} />;
+          } else {
+            return <Route key={route.name} {...route} />;
+          }
         })}
       </Switch>
     );
