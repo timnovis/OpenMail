@@ -7,9 +7,7 @@ import variables from '../helpers/styleVariables';
 class Button extends React.Component {
   render() {
     if (this.props.button) {
-      return (
-        <ButtonWrapper {...this.props}>{this.props.children}</ButtonWrapper>
-      );
+      return <ButtonWrapper {...this.props}>{this.props.children}</ButtonWrapper>;
     }
 
     if (this.props.link) {
@@ -21,9 +19,7 @@ class Button extends React.Component {
 const styles = props => `
   margin-right: .5rem;
   font-size: 1rem;
-  background: ${
-    props.primary ? variables.secondary : props.danger ? variables.red : '#fff'
-  };
+  background: ${props.primary ? variables.secondary : props.danger ? variables.red : '#fff'};
   border: 0;
   padding: 0.6rem 1rem;
   border-radius: ${variables.radius};
@@ -43,10 +39,13 @@ const styles = props => `
     background: ${
       props.primary
         ? lighten(0.05, variables.secondary)
-        : props.danger
-          ? lighten(0.05, variables.red)
-          : lighten(0.1, variables.grey)
+        : props.danger ? lighten(0.05, variables.red) : lighten(0.1, variables.grey)
     };
+  }
+
+  &[disabled] {
+    opacity: 0.6;
+    cursor: default;
   }
 
   &:last-of-type {

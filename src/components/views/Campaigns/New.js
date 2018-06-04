@@ -1,6 +1,12 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { withRouter } from 'react-router-dom';
+import AceEditor from 'react-ace';
+import brace from 'brace';
+import 'brace/mode/html';
+import 'brace/theme/monokai';
+import 'brace/snippets/html';
+import 'brace/ext/language_tools';
 import Layout from '../Layout';
 import PageTitle from '../../PageTitle';
 import Button from '../../Button';
@@ -73,22 +79,33 @@ class NewCampaign extends React.Component {
               <option selected disabled>
                 Choose a list
               </option>
-              {this.state.lists.map(list => (
-                <option value={list.id}>{list.listName}</option>
-              ))}
+              {this.state.lists.map(list => <option value={list.id}>{list.listName}</option>)}
             </Select>
           </InputWrapper>
           <InputWrapper>
             <InputLabel htmlFor="content">Campaign Content</InputLabel>
-            <Textarea
-              id="content"
-              placeholder="Paste your HTML content here"
-              rows="5"
+            <AceEditor
+              mode="html"
+              theme="monokai"
+              name="htmlEmailEditor"
               onChange={e =>
                 this.setState({
-                  htmlContent: e.target.value,
+                  htmlContent: e,
                 })
               }
+              value={this.state.htmlContent}
+              fontSize={14}
+              showPrintMargin={true}
+              showGutter={true}
+              highlightActiveLine={true}
+              setOptions={{
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: false,
+                enableSnippets: true,
+                showLineNumbers: true,
+                tabSize: 2,
+              }}
+              style={{ width: '100%' }}
             />
           </InputWrapper>
           <Button type="submit" primary button>

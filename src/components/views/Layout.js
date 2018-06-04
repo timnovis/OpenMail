@@ -2,50 +2,66 @@ import React from 'react';
 import styled from 'styled-components';
 import { lighten } from 'polished';
 import { NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import { ToastContainer } from 'react-toastify';
+import { Subscribe } from 'unstated';
 import variables from '../../helpers/styleVariables';
 import Button from '../Button';
 import Logo from '../Logo';
+import UserStateContainer from '../../state/UserStateContainer';
 
 class Layout extends React.Component {
+  logout = () => {
+    window.localStorage.removeItem('jwt');
+    window.localStorage.removeItem('emailAddress');
+
+    setTimeout(() => {
+      window.location.reload();
+    }, 200);
+  };
   render() {
     return (
-      <Container>
-        <ToastContainer />
-        <Header>
-          <Logo />
-          <Button primary link to="/">
-            <i className="fas fa-fw fa-sign-out-alt" />Sign Out
-          </Button>
-        </Header>
-        <FlexRow>
-          <Sidebar>
-            <SidebarList>
-              <li>
-                <NavLink exact to="/" activeClassName="active">
-                  <i className="fas fa-fw fa-tachometer-alt" />Dashboard
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/campaigns" activeClassName="active">
-                  <i className="fas fa-fw fa-paper-plane" />Campaigns
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/lists" activeClassName="active">
-                  <i className="fas fa-fw fa-users" />Lists
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/settings" activeClassName="active">
-                  <i className="fas fa-fw fa-cog" />Settings
-                </NavLink>
-              </li>
-            </SidebarList>
-          </Sidebar>
-          <Content>{this.props.children}</Content>
-        </FlexRow>
-      </Container>
+      <Subscribe to={[UserStateContainer]}>
+        {UserState => (
+          <Container>
+            <ToastContainer />
+            <Header>
+              <Logo />
+              {UserState.state.emailAddress}
+              <Button primary button onClick={() => this.logout()}>
+                <i className="fas fa-fw fa-sign-out-alt" />Sign Out
+              </Button>
+            </Header>
+            <FlexRow>
+              <Sidebar>
+                <SidebarList>
+                  <li>
+                    <NavLink exact to="/" activeClassName="active">
+                      <i className="fas fa-fw fa-tachometer-alt" />Dashboard
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/campaigns" activeClassName="active">
+                      <i className="fas fa-fw fa-paper-plane" />Campaigns
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/lists" activeClassName="active">
+                      <i className="fas fa-fw fa-users" />Lists
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/settings" activeClassName="active">
+                      <i className="fas fa-fw fa-cog" />Settings
+                    </NavLink>
+                  </li>
+                </SidebarList>
+              </Sidebar>
+              <Content>{this.props.children}</Content>
+            </FlexRow>
+          </Container>
+        )}
+      </Subscribe>
     );
   }
 }
@@ -112,4 +128,4 @@ const Content = styled.main`
   max-height: calc(100vh - 70px);
 `;
 
-export default Layout;
+export default withRouter(Layout);

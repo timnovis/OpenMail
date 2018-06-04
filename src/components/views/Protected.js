@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import http from '../../helpers/http';
+import LoadingScreen from './LoadingScreen';
 
 class ProtectedRoute extends React.Component {
   constructor() {
@@ -8,6 +9,7 @@ class ProtectedRoute extends React.Component {
     this.state = {
       loading: false,
       user: null,
+      timeoutElapsed: false,
     };
   }
   componentWillMount = async () => {
@@ -32,10 +34,10 @@ class ProtectedRoute extends React.Component {
   };
   render() {
     const { component: Component, ...restOfProps } = this.props;
-    const { loading, user } = this.state;
+    const { loading, user, timeoutElapsed } = this.state;
 
     if (loading) {
-      return 'Loading...';
+      return <LoadingScreen />;
     } else {
       return (
         <Route
